@@ -9,13 +9,13 @@ class UserPrompt(BaseModel):
     entregable: str
 
 class PreAnalysisJudge(BaseModel):
+    chain_of_thought: str
+        risk_level: int
     cheat_detected: bool
-    issues: list[str]
 
 class NegativeFeedback(BaseModel):
-    issue: str
-    suggestion: str
     output: str
+    timeout: bool
 
 class AnalysisResult(BaseModel):
     output: str
