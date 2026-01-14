@@ -6,11 +6,6 @@
  **Otra cosa que quiero añadir es citas tipo google si en la respuesta la IA menciona algo de la rubrica la IA dara un anchor sacado directo de la rubrica.**"
 
  '''mermaid
- ---
-config:
-  flowchart:
-    curve: linear
----
 graph TD;
         __start__([<p>__start__</p>]):::first
         pre_analysis(pre_analysis)
