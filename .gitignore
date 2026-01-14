@@ -2,3 +2,6 @@ __pycache__/
 venv/
 .env
 instructions.md
+logs/
+examples.md
+examples2.md

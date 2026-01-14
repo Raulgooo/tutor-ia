@@ -3,12 +3,13 @@ from schemas import (TutorState,
     AnalysisResult, 
     NegativeFeedback, 
     PostAnalysisJudge, UserPrompt)
-from config import langchain_model as model
+from config import langchain_model as model, logger
 from utils import md_to_string
 
 
 async def pre_analysis_node(state: TutorState):
     sys = md_to_string("app/prompts/preanalysis.md")
+    logger.info("Iniciando nodo de análisis preliminar.")
     prompt = state["actual_prompt"]
     user_content = (
         f"--- CONTEXTO DE LA ACTIVIDAD ---\n"
@@ -24,12 +25,16 @@ async def pre_analysis_node(state: TutorState):
     return {"first_judgement": response}
 
 def route_after_pre_analysis(state: TutorState):
+    logger.info("Determinando ruta después del análisis preliminar.")
     judgement = state["first_judgement"]
     if judgement.cheat_detected or judgement.risk_level > 3.0:
+        logger.info("Ruta seleccionada: feedback negativo debido a detección de trampa o alto nivel de riesgo.")
         return "is_cheat"
+    logger.info("Ruta seleccionada: proceder con tutoría.")
     return "is_safe"
 
 async def tutor_node(state: TutorState):
+    logger.info("Iniciando nodo de tutoría.")
     sys = md_to_string("app/prompts/Tutor.md")
     prompt = state["actual_prompt"]
     user_content = (
@@ -46,10 +51,12 @@ async def tutor_node(state: TutorState):
             {"role": "system", "content": sys},
             *state.get("messages", []),
             {"role": "user", "content": user_content}])
+    logger.info("Nodo de tutoría completado exitosamente. Pasando a post-análisis.")
     return {"tutor_response": response,
         "messages": [("assistant", response.output)]}
 
 async def negative_node(state: TutorState):
+    logger.info("Iniciando nodo de feedback negativo.")
     sys = md_to_string("app/prompts/Negative.md")
     judge = state["first_judgement"]
     AI_content = (
@@ -65,6 +72,7 @@ async def negative_node(state: TutorState):
 
 async def post_analysis_node(state: TutorState):
     sys = md_to_string("app/prompts/PostAnalysis.md")
+    logger.info("Iniciando nodo de post-análisis.")
     tutor_res = state["tutor_response"]
     AI_content = (
         f"--- RESULTADO DEL TUTOR ---\n"
@@ -75,10 +83,14 @@ async def post_analysis_node(state: TutorState):
     structured_llm = model.with_structured_output(PostAnalysisJudge)
     response = await structured_llm.ainvoke([{"role": "system", "content": sys},
         {"role": "user", "content": AI_content}])
+    logger.info("Nodo de post-análisis completado exitosamente.")
     return {"is_valid": response}
 
 def route_after_post_analysis(state: TutorState):
     judgement = state["is_valid"]
     if judgement.valid_output:
+        logger.info("Ruta seleccionada: salida válida, finalizando proceso.")
         return "end_valid"
+    logger.info("Ruta seleccionada: salida inválida, dirigiendo a feedback negativo.")
     return "end_invalid"
+
