@@ -70,7 +70,7 @@ graph TD
 
 Como se enfatizo en que era muy importante asegurar la seguridad y cumplimiento etico, pero tambien mantener calidad en el tutor, tome esta decision para que el sistema fuera mas resiliente ante posibles vulnerabilidades, esto añadio algo de overhead pero lo vale, hace el sistema escalable a mi parecer.
 Intente hacer que fuera muy modular para que sea facil de refactorizar.
-En lugar de depender de un único prompt que puede ser vulnerable a *prompt injection* o bypass, el sistema utiliza **nodos especializados para mantener la calidad de la respuesta del agente y rechazar los intentos de hacer trampa.**:
+En lugar de depender de un único prompt que puede ser vulnerable a *prompt injection* o bypass, el sistema utiliza **nodos especializados para mantener la calidad de la respuesta del agente y rechazar los intentos de hacer trampa**:
 
 1. **Nodo Guardián (Pre-Análisis)**
    - Evalúa la intención del usuario
@@ -102,13 +102,13 @@ El sistema implementa las siguientes técnicas de ingeniería de prompts:
 
 Antes de pasar a la instalacion y el API, listare las mejoras que le haria al programa.
 - **Implementacion de memoria basica**: Añadir al estado del graph la lista de mensajes previos o utilizar checkpointers de langgraph.
-**Multitenencia**: Un sistema basico de usuarios que permita a cada usuario tener su conversación.
-**Hashing para la subida de entregables**: Añadiria Redis y una funcion para hacer hashing de 256 bits a cada archivo subido como entregable y comprobar si se encuentra disponible en la FILES API, en caso de hacerlo ejecuta un query a redis para obtener el .name ligado a ese hash y hacer la consulta a la FILES API.
-**Front-end Ligero**: Un ligero front-end web o una TUI para utilizar el programa de forma local.
-**Mejor manejo de errores**: Añadiria mas codigos HTTP para trazar excepciones.
-**Mejoras en logs**: Implementaria un sistema de logs mas sofisticado para seguir mejor el state.
-**Refactorizacion o mejora de langgraph**: Evaluaria si la solucion actual esta overengineered o si le falta robustez y revisaria alternativas para tener mejor calidad en resultados.
-**Nuevos Prompts y refactor de modelos**: Con mas tiempo escribiria prompts mejor pensados y quiza añadiria evaluaciones numericas del 1 al 10 sobre la calidad de la respuesta producida para que un juez pueda retroalimentar al tutor en caso de que el input amerite una respuesta mejor formada. 
+-**Multitenencia**: Un sistema basico de usuarios que permita a cada usuario tener su conversación.
+-**Hashing para la subida de entregables**: Añadiria Redis y una funcion para hacer hashing de 256 bits a cada archivo subido como entregable y comprobar si se encuentra disponible en la FILES API, en caso de hacerlo ejecuta un query a redis para obtener el .name ligado a ese hash y hacer la consulta a la FILES API.
+-**Front-end Ligero**: Un ligero front-end web o una TUI para utilizar el programa de forma local.
+-**Mejor manejo de errores**: Añadiria mas codigos HTTP para trazar excepciones.
+-**Mejoras en logs**: Implementaria un sistema de logs mas sofisticado para seguir mejor el state.
+-**Refactorizacion o mejora de langgraph**: Evaluaria si la solucion actual esta overengineered o si le falta robustez y revisaria alternativas para tener mejor calidad en resultados.
+-**Nuevos Prompts y refactor de modelos**: Con mas tiempo escribiria prompts mejor pensados y quiza añadiria evaluaciones numericas del 1 al 10 sobre la calidad de la respuesta producida para que un juez pueda retroalimentar al tutor en caso de que el input amerite una respuesta mejor formada. 
 
 
 ## 🚀 Instalación
