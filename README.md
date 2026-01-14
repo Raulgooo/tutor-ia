@@ -6,29 +6,26 @@
  **Otra cosa que quiero añadir es citas tipo google si en la respuesta la IA menciona algo de la rubrica la IA dara un anchor sacado directo de la rubrica.**"
 
  ```mermaid
-graph TD
-    %% Definición de Nodos
-    Start((Inicio)) --> PreAnalysis[Pre-Análisis]
-    
-    %% Flujo de Decisiones (Pre-Análisis)
-    PreAnalysis -- "is_cheat / high_risk" --> NegativeFeedback[Feedback Negativo]
-    PreAnalysis -- "is_safe" --> Tutor[Tutor IA]
-    
-    %% Flujo de Tutoría
-    Tutor --> PostAnalysis[Post-Análisis]
-    
-    %% Flujo de Decisiones (Post-Análisis)
-    PostAnalysis -- "valid_output" --> End((Fin))
-    PostAnalysis -- "invalid_output" --> NegativeFeedback
-    
-    %% Cierre de Feedback
-    NegativeFeedback --> End
-
-    %% Estilos Visuales
-    style Start fill:#dfd,stroke:#333,stroke-width:2px
-    style End fill:#bfb6fc,stroke:#333,stroke-width:2px
-    style PreAnalysis fill:#f2f0ff,stroke:#333
-    style Tutor fill:#f2f0ff,stroke:#333
-    style PostAnalysis fill:#f2f0ff,stroke:#333
-    style NegativeFeedback fill:#ffdee2,
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+        __start__([<p>__start__</p>]):::first
+        pre_analysis(pre_analysis)
+        tutor(tutor)
+        negative_feedback(negative_feedback)
+        post_analysis(post_analysis)
+        __end__([<p>__end__</p>]):::last
+        __start__ --> pre_analysis;
+        post_analysis -. &nbsp;end_valid&nbsp; .-> __end__;
+        post_analysis -. &nbsp;end_invalid&nbsp; .-> negative_feedback;
+        pre_analysis -. &nbsp;is_cheat&nbsp; .-> negative_feedback;
+        pre_analysis -. &nbsp;is_safe&nbsp; .-> tutor;
+        tutor --> post_analysis;
+        negative_feedback --> __end__;
+        classDef default fill:#f2f0ff,line-height:1.2
+        classDef first fill-opacity:0
+        classDef last fill:#bfb6fc
 ```
