@@ -6,26 +6,29 @@
  **Otra cosa que quiero añadir es citas tipo google si en la respuesta la IA menciona algo de la rubrica la IA dara un anchor sacado directo de la rubrica.**"
 
  ```mermaid
----
-config:
-  flowchart:
-    curve: linear
----
-graph TD;
-        __start__([<p>__start__</p>]):::first
-        pre_analysis(pre_analysis)
-        tutor(tutor)
-        negative_feedback(negative_feedback)
-        post_analysis(post_analysis)
-        __end__([<p>__end__</p>]):::last
-        __start__ --> pre_analysis;
-        post_analysis -. &nbsp;end_valid&nbsp; .-> __end__;
-        post_analysis -. &nbsp;end_invalid&nbsp; .-> negative_feedback;
-        pre_analysis -. &nbsp;is_cheat&nbsp; .-> negative_feedback;
-        pre_analysis -. &nbsp;is_safe&nbsp; .-> tutor;
-        tutor --> post_analysis;
-        negative_feedback --> __end__;
-        classDef default fill:#f2f0ff,line-height:1.2
-        classDef first fill-opacity:0
-        classDef last fill:#bfb6fc
+graph TD
+    %% Nodos principales
+    Start((Inicio)) --> PreAnalysis[Pre-Análisis]
+    
+    %% Decisiones del Nodo de Pre-Análisis
+    PreAnalysis -.->|is_cheat / high_risk| NegativeFeedback[Feedback Negativo]
+    PreAnalysis -.->|is_safe| Tutor[Tutor IA]
+    
+    %% Proceso de Tutoría
+    Tutor --> PostAnalysis[Post-Análisis]
+    
+    %% Decisiones del Nodo de Post-Análisis
+    PostAnalysis -.->|valid_output| End((Fin))
+    PostAnalysis -.->|invalid_output| NegativeFeedback
+    
+    %% Salida final de error
+    NegativeFeedback --> End
+
+    %% Estilizado para que se vea Pro
+    style Start fill:#f9f9f9,stroke:#333,stroke-width:2px
+    style End fill:#bfb6fc,stroke:#333,stroke-width:4px
+    style PreAnalysis fill:#e1f5fe,stroke:#01579b
+    style Tutor fill:#e8f5e9,stroke:#2e7d32
+    style PostAnalysis fill:#fff3e0,stroke:#ef6c00
+    style NegativeFeedback fill:#ffebee,stroke:#c62828
 ```
