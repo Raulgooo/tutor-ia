@@ -4,3 +4,28 @@
  **La primera solucion que considere para el agente fue solo un System Prompt robusto para que el programa rechace siempre los intentos de trampa, pero no me convencio ya que es muy probable que el sistema en algun momento pueda caer en prompt injection. Mi segunda opcion fue utilizar langchain y otorgarle al agente una herramienta de checkeo de trampas pero igualmente me di cuenta que caia en lo mismo, el agente podia llegar a elegir no usar la herramienta en algun punto y para disminuir la superficie de errores se me ocurrio implementar un nodo Anti-Trampa inicial que se encarga de revisar la entrada del usuario justo antes de empezar a pensar en una respuesta, si determina que hay intenciones de trampa, el agente elige no proseguir con la peticion, el prompt se pasa al nodo de tutor y despues es revisado por un nodo guardian que verifica que no se haya violado la seguridad del primer nodo. De esta forma + system prompt bien planeado en el nodo de profesor llegamos a un metodo mas fiable para evitar trampas del usuario. Soy consciente de que esto puede añadir algo de overhead tecnico pero me parece necesario para hacer el sistema fiable, ademas el uso de langgraph me permite implementar un agente que es mas sencillo de controlar y que puede otorgar respuestas mejor curadas.**
  **Despues me parecio que seria util incluir memoria a corto plazo en el agente, para peticiones posteriores. Para acotar la implementacion me decidi por una memoria corta de 15 mensajes, de esta forma el agente puede responder dudas, revisarse a el mismo, y ofrecer ayuda extra al usuario sobre su tarea.**
  **Otra cosa que quiero añadir es citas tipo google si en la respuesta la IA menciona algo de la rubrica la IA dara un anchor sacado directo de la rubrica.**"
+
+ '''mermaid
+ ---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+        __start__([<p>__start__</p>]):::first
+        pre_analysis(pre_analysis)
+        tutor(tutor)
+        negative_feedback(negative_feedback)
+        post_analysis(post_analysis)
+        __end__([<p>__end__</p>]):::last
+        __start__ --> pre_analysis;
+        post_analysis -. &nbsp;end_valid&nbsp; .-> __end__;
+        post_analysis -. &nbsp;end_invalid&nbsp; .-> negative_feedback;
+        pre_analysis -. &nbsp;is_cheat&nbsp; .-> negative_feedback;
+        pre_analysis -. &nbsp;is_safe&nbsp; .-> tutor;
+        tutor --> post_analysis;
+        negative_feedback --> __end__;
+        classDef default fill:#f2f0ff,line-height:1.2
+        classDef first fill-opacity:0
+        classDef last fill:#bfb6fc
+        '''
