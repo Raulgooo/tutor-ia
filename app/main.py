@@ -43,5 +43,5 @@ async def analyze_content(
         logger.error(f"Error durante el análisis de tutoría: {e}")
         if "429" in str(e):
             raise HTTPException(status_code=429, detail="Límite de tasa excedido al comunicarse con la API de Google Gemini.")
-        raise HTTPException(status_code=504, detail=f"Error al comunicarse con la API de Google Gemini.")
+        raise HTTPException(status_code=500, detail=f"Error General")
         

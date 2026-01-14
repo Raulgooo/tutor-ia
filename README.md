@@ -4,12 +4,11 @@
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)
-![License](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Status](https://img.shields.io/badge/Status-Active-success.svg)
 
-**Un tutor académico con método socrático y arquitectura anti-fraude basada en agentes**
 
-[Características](#-características-principales) • [Instalación](#-instalación) • [Uso](#-uso) • [Arquitectura](#-arquitectura) • [API](#-api-reference)
+**Un tutor académico con método socrático y arquitectura anti-trampa basada en graphs**
+
+[Características](#-características-principales) • [Instalación](#-instalación) • [Uso](#-uso) • [Arquitectura](#-arquitectura) • [API](#-api-reference) • [Ejemplos de uso](#-Ejemplos) • [Material para pruebas](#-Pruebas)
 
 </div>
 
@@ -21,12 +20,12 @@ SOCRAT-AI es un tutor académico inteligente diseñado para guiar a los estudian
 
 ### ✨ Características Principales
 
-- 🧠 **Método Socrático**: Guía mediante preguntas en lugar de respuestas directas
-- 🛡️ **Sistema Anti-Fraude**: Arquitectura multi-agente que detecta intentos de trampa
-- 📊 **Validación de Rúbricas**: Evalúa respuestas contra criterios académicos específicos
-- 📄 **Procesamiento de Documentos**: Soporte para PDF y DOCX adjuntos
-- ⚡ **Baja Latencia**: Optimizado para respuestas en tiempo real
-- 🔍 **Trazabilidad Completa**: Logging detallado para debugging y auditoría
+- 🧠 **Método Socrático**: Guía mediante preguntas en lugar de respuestas directas si es posible.
+- 🛡️ **Sistema Anti-Trampa**: Arquitectura de nodo que detecta intentos de trampa.
+- 📊 **Validación de Rúbricas**: Evalúa respuestas contra criterios académicos específicos.
+- 📄 **Procesamiento de Documentos**: Soporte para entregables PDF y DOCX adjuntos.
+- ⚡ **Baja Latencia**: Veloz y exacto, respuestas casi instantaneas sin streaming.
+- 🔍 **Trazabilidad basica**: Logging de procesos para debugs y tests, etc
 
 ---
 
@@ -36,14 +35,14 @@ SOCRAT-AI es un tutor académico inteligente diseñado para guiar a los estudian
 
 | Componente | Tecnología | Razón de Elección |
 |------------|-----------|-------------------|
-| **Framework** | FastAPI | Manejo nativo de asincronía para mitigar latencia |
-| **LLM** | Gemini 1.5 Flash | Óptimo balance velocidad/rendimiento en razonamiento |
+| **Framework** | FastAPI | Facil de usar, manejo nativo de asincronía para lidiar con latencia |
+| **LLM** | Gemini 3 Preview | Óptimo balance velocidad/rendimiento en razonamiento |
 | **Orquestación** | LangGraph | Flujos de agentes cíclicos y validaciones granulares |
 | **Validación** | Pydantic | Contratos de datos estrictos y salidas estructuradas |
-| **Documentos** | Gemini Files API | Procesamiento eficiente y económico de archivos |
-| **Logging** | Loguru | Trazabilidad y debugging en desarrollo |
+| **Documentos** | Gemini Files API | Procesamiento eficiente y económico de archivos temporales |
+| **Logging** | Loguru | Trazabilidad basica para hacer debugging en nodos.|
 
-### Flujo de Agentes
+### Flujo de LangGraph
 
 ```mermaid
 graph TD
@@ -69,15 +68,17 @@ graph TD
 
 ### 🛡️ Sistema de Guardrails Anti-Fraude
 
-En lugar de depender de un único prompt vulnerable a *prompt injection*, el sistema utiliza **nodos especializados**:
+Como se enfatizo en que era muy importante asegurar la seguridad y cumplimiento etico, pero tambien mantener calidad en el tutor, tome esta decision para que el sistema fuera mas resiliente ante posibles vulnerabilidades, esto añadio algo de overhead pero lo vale, hace el sistema escalable a mi parecer.
+Intente hacer que fuera muy modular para que sea facil de refactorizar.
+En lugar de depender de un único prompt que puede ser vulnerable a *prompt injection* o bypass, el sistema utiliza **nodos especializados para mantener la calidad de la respuesta del agente y rechazar los intentos de hacer trampa.**:
 
 1. **Nodo Guardián (Pre-Análisis)**
    - Evalúa la intención del usuario
    - Detecta intentos de obtener respuestas directas o plagio
-   - Detiene el flujo si identifica riesgo alto
+   - No deja pasar al nodo tutor si decide que hay riesgo
 
 2. **Nodo Tutor**
-   - Genera guía pedagógica basada en la rúbrica
+   - Genera respuestas basado en la peticion del usuario despues de ser "sanitizada" en el nodo anterior
    - Aplica metodología socrática
    - Mantiene el balance entre ayuda y autonomía
 
@@ -90,13 +91,24 @@ En lugar de depender de un único prompt vulnerable a *prompt injection*, el sis
 
 ## 🧠 Técnicas de Prompting
 
-El sistema implementa técnicas de ingeniería de prompts de última generación:
+El sistema implementa las siguientes técnicas de ingeniería de prompts:
 
 - **Grounding Anchors**: Citación textual de rúbricas para reducir alucinaciones
-- **Chain of Thought (CoT)**: Razonamiento explícito antes de cada resultado
+- **Chain of Thought (CoT)**: Razonamiento explícito antes de cada resultado, disminuye alucinaciones y mantiene coherencia
 - **Decisiones Binarias**: Posturas claras (Sí/No) para evitar ambigüedades
 - **Separación de Responsabilidades**: Un prompt = una tarea (validar, enseñar o revisar)
 
+## Que mejoras haria?
+
+Antes de pasar a la instalacion y el API, listare las mejoras que le haria al programa.
+- **Implementacion de memoria basica**: Añadir al estado del graph la lista de mensajes previos o utilizar checkpointers de langgraph.
+**Multitenencia**: Un sistema basico de usuarios que permita a cada usuario tener su conversación.
+**Hashing para la subida de entregables**: Añadiria Redis y una funcion para hacer hashing de 256 bits a cada archivo subido como entregable y comprobar si se encuentra disponible en la FILES API, en caso de hacerlo ejecuta un query a redis para obtener el .name ligado a ese hash y hacer la consulta a la FILES API.
+**Front-end Ligero**: Un ligero front-end web o una TUI para utilizar el programa de forma local.
+**Mejor manejo de errores**: Añadiria mas codigos HTTP para trazar excepciones.
+**Mejoras en logs**: Implementaria un sistema de logs mas sofisticado para seguir mejor el state.
+**Refactorizacion o mejora de langgraph**: Evaluaria si la solucion actual esta overengineered o si le falta robustez y revisaria alternativas para tener mejor calidad en resultados.
+**Nuevos Prompts y refactor de modelos**: Con mas tiempo escribiria prompts mejor pensados y quiza añadiria evaluaciones numericas del 1 al 10 sobre la calidad de la respuesta producida para que un juez pueda retroalimentar al tutor en caso de que el input amerite una respuesta mejor formada. 
 
 
 ## 🚀 Instalación
@@ -115,7 +127,7 @@ cd socrat-ai
 
 # 2. Crear entorno virtual
 python -m venv venv
-source venv/bin/activate  # En Windows: venv\Scripts\activate
+source venv/bin/activate  # En Windows: cmd -> venv\Scripts\activate.bat powrshell -> venv\Scripts\activate.ps1
 
 # 3. Instalar dependencias
 pip install -r requirements.txt
@@ -157,7 +169,6 @@ El servidor estará disponible en `http://localhost:8000`
 
 Accede a la documentación auto-generada de FastAPI:
 - **Swagger UI**: http://localhost:8000/docs
-- **ReDoc**: http://localhost:8000/redoc
 
 ---
 
@@ -166,16 +177,6 @@ Accede a la documentación auto-generada de FastAPI:
 ### `POST /tutor/analyze`
 
 Analiza una consulta del estudiante y genera retroalimentación socrática.
-
-**Request** (multipart/form-data):
-
-```json
-{
-  "prompt": "¿Cómo resuelvo esta integral?",
-  "rubric": "El estudiante debe aplicar sustitución trigonométrica...",
-  "files": ["archivo.pdf"]  // Opcional
-}
-```
 
 **Responses**:
 
@@ -186,15 +187,31 @@ Analiza una consulta del estudiante y genera retroalimentación socrática.
 | `429` | Límite de cuota de API alcanzado |
 | `500` | Error interno del servidor |
 
+**Request** (multipart/form-data):
+
+```curl
+curl -X 'POST' \
+  'http://127.0.0.1:8000/tutor/analizar' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'enunciado=Resolver una serie de ejercicios sobre integrales definidas utilizando el Teorema Fundamental del Cálculo. Se debe mostrar el procedimiento completo y la interpretación geométrica del resultado (área bajo la curva)' \
+  -F 'rubrica=Aplicación correcta de las fórmulas de integración (40%)\n- Evaluación precisa de los límites de integración (30%)\n- Explicación de la interpretación geométrica (30%)' \
+  -F 'pregunta=Tengo dudas con el Teorema Fundamental del Cálculo. ¿Me podrías explicar los pasos lógicos que debo seguir para resolver una integral definida sin darme la respuesta de un ejercicio en particular?' \
+  -F 'entregable=' \
+  -F 'entregable_texto=Tengo la función f(x) = x^2 y quiero integrarla de 1 a 3, pero no sé qué hacer después de encontrar la antiderivada.'
+```
+
 **Ejemplo de Respuesta 200**:
 
-```json
+```curl
 {
-  "chain_of_thought": "El estudiante pide ayuda con una integral...",
+  "chain_of_thought": "El estudiante ha logrado encontrar la antiderivada, que es el primer paso crucial en la resolución de integrales definidas. Su duda radica en cómo proceder con los límites de integración. Mi objetivo es explicarle de forma clara y paso a paso cómo aplicar el Teorema Fundamental del Cálculo para evaluar la integral definida una vez que se tiene la antiderivada, sin resolver su ejercicio específico. Debo enfatizar la evaluación de los límites y la interpretación geométrica, tal como lo solicita la rúbrica y el enunciado de la actividad.",
   "anchor_references": [
-    "Rúbrica: El estudiante debe identificar el tipo de integral..."
+    "Evaluación precisa de los límites de integración (30%)",
+    "Explicación de la interpretación geométrica (30%)",
+    "Resolver una serie de ejercicios sobre integrales definidas utilizando el Teorema Fundamental del Cálculo. Se debe mostrar el procedimiento completo y la interpretación geométrica del resultado (área bajo la curva)"
   ],
-  "output": "¿Qué tipo de integral observas? ¿Reconoces algún patrón en la función?"
+  "output": "¡Excelente que ya tienes la antiderivada! Ese es un gran avance. Ahora, para resolver una integral definida utilizando el Teorema Fundamental del Cálculo, la clave está en cómo usas esa antiderivada y los límites de integración (en tu caso, 1 y 3).\n\nAquí te explico los pasos lógicos a seguir:\n\n1.  **Identifica la antiderivada (o primitiva):** Si tu función original es f(x), el primer paso es encontrar su antiderivada F(x). Parece que ya lo tienes dominado.\n\n2.  **Evalúa la antiderivada en el límite superior:** Una vez que tienes F(x), el siguiente paso es sustituir el límite superior de integración (el número de arriba en el símbolo de la integral, en tu caso 3) en tu antiderivada. Esto te dará un valor numérico, llamémoslo F(b) (donde 'b' es el límite superior).\n\n3.  **Evalúa la antiderivada en el límite inferior:** Después, harás lo mismo con el límite inferior de integración (el número de abajo en el símbolo de la integral, en tu caso 1). Sustituye este valor en tu antiderivada F(x) para obtener otro valor numérico, F(a) (donde 'a' es el límite inferior).\n\n4.  **Resta los resultados:** El valor de la integral definida se obtiene restando el resultado de la evaluación en el límite inferior del resultado de la evaluación en el límite superior. Es decir, la integral definida será igual a F(b) - F(a).\n\n    *   **Importante:** El orden de la resta es fundamental. Siempre es (evaluación en el límite superior) menos (evaluación en el límite inferior).\n\n5.  **Interpreta el resultado geométricamente:** El número que obtengas al final (F(b) - F(a)) tiene un significado geométrico muy importante. Representa el **área neta** entre la gráfica de tu función f(x) y el eje x, en el intervalo definido por tus límites de integración (de 'a' a 'b'). Si el resultado es positivo, el área está predominantemente por encima del eje x; si es negativo, está predominantemente por debajo. Si es cero, las áreas positivas y negativas se compensan.\n\nAsí que, en resumen, después de encontrar tu antiderivada F(x), solo necesitas calcular F(3) y F(1), y luego restar F(3) - F(1). ¡Verás que es un proceso muy directo!"
 }
 ```
 
@@ -203,6 +220,5 @@ Analiza una consulta del estudiante y genera retroalimentación socrática.
 
 
 
-[Reportar Bug](https://github.com/tu-usuario/socrat-ai/issues) • [Solicitar Feature](https://github.com/tu-usuario/socrat-ai/issues)
 
 </div>

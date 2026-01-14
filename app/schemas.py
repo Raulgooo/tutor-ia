@@ -15,7 +15,6 @@ class PreAnalysisJudge(BaseModel):
 
 class NegativeFeedback(BaseModel):
     output: str = Field(..., description="Respuesta negativa al usuario. Solo se le niega su peticion sin dar detalles sobre internos del sistema. Otorgar sugerencias o alternativas cuando aplique.")
-    timeout: bool = Field(..., description="Indica si se detecto trampa o no")
 
 class AnalysisResult(BaseModel):
     chain_of_thought: str = Field(..., description="El razonamiento del modelo para generar la respuesta del tutor.")
@@ -30,8 +29,7 @@ class TutorState(TypedDict):
     actual_prompt: UserPrompt
     system_instructions: str
     user_id: str
-    first_judgement: Optional[PreAnalysisJudge]
-    messages: Annotated[List[dict], operator.add]
+    first_judgement: Optional[PreAnalysisJudge] 
     negative_feedback: Optional[NegativeFeedback]
     tutor_response: Optional[AnalysisResult]
     is_valid: Optional[PostAnalysisJudge]
