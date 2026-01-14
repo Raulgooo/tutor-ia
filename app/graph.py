@@ -38,3 +38,5 @@ flow.add_conditional_edges(
 flow.add_edge("negative_feedback", END)
 
 graph = flow.compile()
+
+print(graph.get_graph().draw_mermaid())

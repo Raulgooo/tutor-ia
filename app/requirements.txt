@@ -68,3 +68,4 @@ websockets==15.0.1
 xxhash==3.6.0
 zstandard==0.25.0
 uuid-utils==0.13.0
+loguru==0.7.3
