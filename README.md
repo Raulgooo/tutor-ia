@@ -1,111 +1,208 @@
-SOCRAT-AI 🎓
-Socrat-AI es un tutor académico diseñado para guiar a los estudiantes sin entregar respuestas directas. Utiliza el método socrático para fomentar el pensamiento crítico, validando la entrada del usuario contra rúbricas de evaluación y detectando intentos de fraude académico mediante una arquitectura de agentes multi-nodo.
+# 🎓 SOCRAT-AI
 
-🏗️ Arquitectura y Decisiones Técnicas
-El Modelo
-Se seleccionó la familia Gemini de Google por su baja latencia y alta precisión en razonamiento lógico.
+<div align="center">
 
-Modelo Principal: gemini-1.5-flash (seleccionado por su excelente trade-off entre velocidad y rendimiento para tareas de tutoría en tiempo real).
+![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Status](https://img.shields.io/badge/Status-Active-success.svg)
 
-Razonamiento: La capacidad del modelo para seguir instrucciones complejas y manejar salidas estructuradas fue determinante para la lógica de los nodos de control.
+**Un tutor académico con método socrático y arquitectura anti-fraude basada en agentes**
 
-El Stack
-FastAPI: Elegido por su manejo nativo de asincronía, vital para mitigar la latencia de APIs externas.
+[Características](#-características-principales) • [Instalación](#-instalación) • [Uso](#-uso) • [Arquitectura](#-arquitectura) • [API](#-api-reference)
 
-Pydantic: Motor central para la validación de contratos de datos y la estructuración de las salidas de los LLMs.
+</div>
 
-LangGraph: Implementado para orquestar un flujo de agente cíclico y controlado, permitiendo validaciones granulares que un simple System Prompt no podría garantizar.
+---
 
-Gemini Files API: Utilizado para el procesamiento eficiente y económico de documentos (PDF/Docx) adjuntos por el alumno.
+## 📖 Descripción
 
-Loguru: Gestión de logs para trazabilidad y debugging en desarrollo.
+SOCRAT-AI es un tutor académico inteligente diseñado para guiar a los estudiantes en su proceso de aprendizaje sin entregar respuestas directas. Utilizando el **método socrático**, fomenta el pensamiento crítico mediante preguntas estratégicas y validación continua contra rúbricas de evaluación.
 
-🛡️ Estrategia Anti-Fraude (Guardrails)
-En lugar de confiar en un único prompt masivo propenso a prompt injection, el sistema utiliza una estructura de nodos especializados:
+### ✨ Características Principales
 
-Nodo Guardián (Pre-Análisis): Evalúa la intención del usuario. Si detecta un intento de obtener la respuesta directa o plagio, detiene el flujo.
+- 🧠 **Método Socrático**: Guía mediante preguntas en lugar de respuestas directas
+- 🛡️ **Sistema Anti-Fraude**: Arquitectura multi-agente que detecta intentos de trampa
+- 📊 **Validación de Rúbricas**: Evalúa respuestas contra criterios académicos específicos
+- 📄 **Procesamiento de Documentos**: Soporte para PDF y DOCX adjuntos
+- ⚡ **Baja Latencia**: Optimizado para respuestas en tiempo real
+- 🔍 **Trazabilidad Completa**: Logging detallado para debugging y auditoría
 
-Nodo Tutor: Genera la guía pedagógica basada en la rúbrica y la metodología socrática.
+---
 
-Nodo de Post-Análisis: Un revisor independiente verifica que la respuesta del tutor no haya filtrado accidentalmente la solución y que cumpla con los estándares de calidad.
+## 🏗️ Arquitectura
 
-Flujo de Trabajo
-Fragmento de código
+### Stack Tecnológico
 
+| Componente | Tecnología | Razón de Elección |
+|------------|-----------|-------------------|
+| **Framework** | FastAPI | Manejo nativo de asincronía para mitigar latencia |
+| **LLM** | Gemini 1.5 Flash | Óptimo balance velocidad/rendimiento en razonamiento |
+| **Orquestación** | LangGraph | Flujos de agentes cíclicos y validaciones granulares |
+| **Validación** | Pydantic | Contratos de datos estrictos y salidas estructuradas |
+| **Documentos** | Gemini Files API | Procesamiento eficiente y económico de archivos |
+| **Logging** | Loguru | Trazabilidad y debugging en desarrollo |
+
+### Flujo de Agentes
+
+```mermaid
 graph TD
-    %% Nodos principales
-    Start((Inicio)) --> PreAnalysis[Pre-Análisis]
+    Start((Inicio)) --> PreAnalysis[🔍 Pre-Análisis]
     
-    %% Decisiones del Nodo de Pre-Análisis
-    PreAnalysis -- "Fraude / Riesgo Alto" --> NegativeFeedback[Feedback Negativo]
-    PreAnalysis -- "Seguro" --> Tutor[Tutor IA]
+    PreAnalysis -- "Riesgo Alto" --> NegativeFeedback[❌ Feedback Negativo]
+    PreAnalysis -- "Seguro" --> Tutor[🎓 Tutor IA]
     
-    %% Proceso de Tutoría
-    Tutor --> PostAnalysis[Post-Análisis]
+    Tutor --> PostAnalysis[✅ Post-Análisis]
     
-    %% Decisiones del Nodo de Post-Análisis
     PostAnalysis -- "Válido" --> End((Fin))
     PostAnalysis -- "No Válido" --> NegativeFeedback
     
-    %% Salida final de error
     NegativeFeedback --> End
 
-    %% Estilizado
     style Start fill:#f9f9f9,stroke:#333,stroke-width:2px
     style End fill:#bfb6fc,stroke:#333,stroke-width:4px
     style PreAnalysis fill:#e1f5fe,stroke:#01579b
     style Tutor fill:#e8f5e9,stroke:#2e7d32
     style PostAnalysis fill:#fff3e0,stroke:#ef6c00
     style NegativeFeedback fill:#ffebee,stroke:#c62828
-📋 Contratos de Datos (Pydantic Models)
-El sistema se comunica mediante estructuras estrictas para asegurar la integridad de los datos entre nodos.
+```
 
-PreAnalysisJudge: Determina el nivel de riesgo (1-5) y la detección de trampas.
+### 🛡️ Sistema de Guardrails Anti-Fraude
 
-AnalysisResult: Contiene el Chain of Thought, el output final y los Anchor References (citas directas de la rúbrica).
+En lugar de depender de un único prompt vulnerable a *prompt injection*, el sistema utiliza **nodos especializados**:
 
-TutorState: El objeto de estado global que persiste la información a través del grafo de LangGraph.
+1. **Nodo Guardián (Pre-Análisis)**
+   - Evalúa la intención del usuario
+   - Detecta intentos de obtener respuestas directas o plagio
+   - Detiene el flujo si identifica riesgo alto
 
-Python
+2. **Nodo Tutor**
+   - Genera guía pedagógica basada en la rúbrica
+   - Aplica metodología socrática
+   - Mantiene el balance entre ayuda y autonomía
 
-class AnalysisResult(BaseModel):
-    chain_of_thought: str = Field(..., description="Razonamiento lógico del tutor")
-    anchor_references: list[str] = Field(..., description="Fragmentos de la rúbrica utilizados")
-    output: str = Field(..., description="Respuesta socrática final")
-🧠 Metodología de Prompting
-Se implementaron técnicas de ingeniería de prompts de última generación para maximizar la fiabilidad:
+3. **Nodo de Post-Análisis**
+   - Revisor independiente de calidad
+   - Verifica que no se haya filtrado la solución
+   - Valida cumplimiento de estándares pedagógicos
 
-Grounding Anchors: Se obliga al modelo a citar textualmente la rúbrica o las instrucciones para reducir alucinaciones.
+---
 
-Chain of Thought (CoT): Cada nodo debe "pensar en voz alta" antes de entregar un resultado, mejorando la coherencia en tareas complejas.
+## 🧠 Técnicas de Prompting
 
-Decisiones Booleanas: Forzamos al modelo a tomar posturas binarias (¿Es trampa? Sí/No) para evitar ambigüedades en la lógica de control.
+El sistema implementa técnicas de ingeniería de prompts de última generación:
 
-Separación de Responsabilidades: Cada prompt se enfoca exclusivamente en una tarea (validar, enseñar o revisar), reduciendo la carga cognitiva del modelo.
+- **Grounding Anchors**: Citación textual de rúbricas para reducir alucinaciones
+- **Chain of Thought (CoT)**: Razonamiento explícito antes de cada resultado
+- **Decisiones Binarias**: Posturas claras (Sí/No) para evitar ambigüedades
+- **Separación de Responsabilidades**: Un prompt = una tarea (validar, enseñar o revisar)
 
-🚀 Instalación y Uso
-Local
-Clona el repositorio: git clone ...
 
-Instala dependencias: pip install -r requirements.txt
 
-Configura tus variables de entorno en un archivo .env:
+## 🚀 Instalación
 
-Fragmento de código
+### Requisitos Previos
 
-GOOGLE_API_KEY=tu_api_key
-Ejecuta la aplicación: uvicorn main:app --reload
+- Python 3.10 o superior
+- Cuenta de Google Cloud con API de Gemini habilitada
 
-Docker
-Bash
+### Instalación Local
 
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/raulgooo/socrat-ai.git
+cd socrat-ai
+
+# 2. Crear entorno virtual
+python -m venv venv
+source venv/bin/activate  # En Windows: venv\Scripts\activate
+
+# 3. Instalar dependencias
+pip install -r requirements.txt
+
+# 4. Configurar variables de entorno
+cp .env.example .env
+# Editar .env y agregar tu GOOGLE_API_KEY
+```
+
+### Instalación con Docker
+
+```bash
+# Construir imagen
 docker build -t socrat-ai .
+
+# Ejecutar contenedor
 docker run -p 8000:8000 --env-file .env socrat-ai
-🛠️ API Endpoints
-POST /tutor/analyze: Recibe el prompt, la rúbrica y archivos adjuntos (multipart).
+```
 
-200 OK: Retorna la respuesta del tutor.
+### Variables de Entorno
 
-429 Too Many Requests: Límite de cuota de Gemini alcanzado.
+```env
+GOOGLE_API_KEY=tu_api_key_aqui
+```
 
-500 Internal Error: Error inesperado en el procesamiento.
+---
+
+## 💻 Uso
+
+### Iniciar el Servidor
+
+```bash
+uvicorn main:app --reload
+```
+
+El servidor estará disponible en `http://localhost:8000`
+
+### Documentación Interactiva
+
+Accede a la documentación auto-generada de FastAPI:
+- **Swagger UI**: http://localhost:8000/docs
+- **ReDoc**: http://localhost:8000/redoc
+
+---
+
+## 📡 API Reference
+
+### `POST /tutor/analyze`
+
+Analiza una consulta del estudiante y genera retroalimentación socrática.
+
+**Request** (multipart/form-data):
+
+```json
+{
+  "prompt": "¿Cómo resuelvo esta integral?",
+  "rubric": "El estudiante debe aplicar sustitución trigonométrica...",
+  "files": ["archivo.pdf"]  // Opcional
+}
+```
+
+**Responses**:
+
+| Código | Descripción |
+|--------|-------------|
+| `200` | Respuesta exitosa con guía del tutor |
+| `400` | Datos de entrada inválidos |
+| `429` | Límite de cuota de API alcanzado |
+| `500` | Error interno del servidor |
+
+**Ejemplo de Respuesta 200**:
+
+```json
+{
+  "chain_of_thought": "El estudiante pide ayuda con una integral...",
+  "anchor_references": [
+    "Rúbrica: El estudiante debe identificar el tipo de integral..."
+  ],
+  "output": "¿Qué tipo de integral observas? ¿Reconoces algún patrón en la función?"
+}
+```
+
+---
+
+
+
+
+[Reportar Bug](https://github.com/tu-usuario/socrat-ai/issues) • [Solicitar Feature](https://github.com/tu-usuario/socrat-ai/issues)
+
+</div>
