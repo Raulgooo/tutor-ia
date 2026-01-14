@@ -1,16 +1,16 @@
 from pydantic import BaseModel
 from typing import TypedDict, List, Optional, Annotated
-from langgraph.graph.message import add_messages
+import operator
 
 class UserPrompt(BaseModel):
     enunciado: str
     rubrica: str
     pregunta: str
-    entregable: str
+    entregable: Optional[str]
 
 class PreAnalysisJudge(BaseModel):
     chain_of_thought: str
-        risk_level: int
+    risk_level: int
     cheat_detected: bool
 
 class NegativeFeedback(BaseModel):
@@ -31,7 +31,7 @@ class TutorState(TypedDict):
     system_instructions: str
     user_id: str
     first_judgement: Optional[PreAnalysisJudge]
-    messages: Annotated[List[dict], add_messages]
+    messages: Annotated[List[dict], operator.add]
     negative_feedback: Optional[NegativeFeedback]
     tutor_response: Optional[AnalysisResult]
     is_valid: Optional[PostAnalysisJudge]
