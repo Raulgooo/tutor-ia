@@ -87,6 +87,7 @@ En lugar de depender de un único prompt que puede ser vulnerable a *prompt inje
    - Verifica que no se haya filtrado la solución
    - Valida cumplimiento de estándares pedagógicos
 
+Decidi no añadir un key de SystemPrompt en el State general del tutor por que se usa para trazabilidad y lo considere innecesario ya que con el logging que esta implementado ya es suficiente para saber en que parte falla o sucede algo mirando el archivo de logs y por ende que prompt se uso. En el futuro se podria añadir para mejorar.
 ---
 
 ## 🧠 Técnicas de Prompting
@@ -109,7 +110,7 @@ Antes de pasar a la instalacion y el API, listare las mejoras que le haria al pr
 - **Mejoras en logs**: Implementaria un sistema de logs mas sofisticado para seguir mejor el state.
 - **Refactorizacion o mejora de langgraph**: Evaluaria si la solucion actual esta overengineered o si le falta robustez y revisaria alternativas para tener mejor calidad en resultados.
 - **Nuevos Prompts y refactor de modelos**: Con mas tiempo escribiria prompts mejor pensados y quiza añadiria evaluaciones numericas del 1 al 10 sobre la calidad de la respuesta producida para que un juez pueda retroalimentar al tutor en caso de que el input amerite una respuesta mejor formada. 
-
+- **Pruebas Unitarias para los nodos**: Tenia pensado incluirlas en esta primera version pero probablemente no podre por el tiempo, si queda pendiente entonces despues lo añadiria.
 
 ## 🚀 Instalación
 

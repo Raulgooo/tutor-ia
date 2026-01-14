@@ -27,8 +27,6 @@ class PostAnalysisJudge(BaseModel):
 
 class TutorState(TypedDict):
     actual_prompt: UserPrompt
-    system_instructions: str
-    user_id: str
     first_judgement: Optional[PreAnalysisJudge] 
     negative_feedback: Optional[NegativeFeedback]
     tutor_response: Optional[AnalysisResult]

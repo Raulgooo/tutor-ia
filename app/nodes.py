@@ -58,21 +58,22 @@ async def negative_node(state: TutorState):
     logger.info("Iniciando nodo de feedback negativo.")
     sys = md_to_string("app/prompts/Negative.md")
     judge = state["first_judgement"]
-    is_valid = state["is_valid"]
-    if is_valid.output is False:
+    is_valid = state.get("is_valid")
+    if is_valid is not None and is_valid.valid_output is False:
         logger.info("Generando feedback negativo debido a prompt invalido.")
         response = NegativeFeedback(valid_output="Lo siento, pero no puedo ayudarte con esa solicitud.", chain_of_thought="El prompt proporcionado es inválido o inapropiado.")
-    return {"negative_feedback": response}
-    AI_content = (
-        f"--- RESULTADO DEL TUTOR ---\n"
-        f"CHAIN OF THOUGHT: {judge.chain_of_thought}\n\n"
-        f"RISK LEVEL: {judge.risk_level}\n\n"
-        f"CHEAT DETECTION: {judge.cheat_detected}"
-    )
-    structured_llm = model.with_structured_output(NegativeFeedback)
-    response = await structured_llm.ainvoke([{"role": "system", "content": sys},
-        {"role": "user", "content": AI_content}])
-    return {"negative_feedback": response}
+        return {"negative_feedback": response}
+    else:
+        AI_content = (
+            f"--- RESULTADO DEL TUTOR ---\n"
+            f"CHAIN OF THOUGHT: {judge.chain_of_thought}\n\n"
+            f"RISK LEVEL: {judge.risk_level}\n\n"
+            f"CHEAT DETECTION: {judge.cheat_detected}"
+        )
+        structured_llm = model.with_structured_output(NegativeFeedback)
+        response = await structured_llm.ainvoke([{"role": "system", "content": sys},
+            {"role": "user", "content": AI_content}])
+        return {"negative_feedback": response}
 
 async def post_analysis_node(state: TutorState):
     sys = md_to_string("app/prompts/PostAnalysis.md")
