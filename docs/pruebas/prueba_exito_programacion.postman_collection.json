@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "prueba-exito-programacion-002",
+		"name": "Prueba Éxito - Programación",
+		"description": "Collection para probar casos exitosos de tutoría en programación (algoritmos)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Tutoría Algoritmos - Caso Exitoso",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "enunciado",
+							"value": "Implementar una función que ordene un arreglo de números enteros utilizando el algoritmo de ordenamiento por inserción. La función debe incluir comentarios explicativos y manejar casos edge.",
+							"type": "text"
+						},
+						{
+							"key": "rubrica",
+							"value": "Correcta implementación del algoritmo (50%)\n- Manejo de casos edge (25%)\n- Claridad en comentarios y estructura del código (25%)",
+							"type": "text"
+						},
+						{
+							"key": "pregunta",
+							"value": "He intentado implementar el algoritmo pero mi código no ordena correctamente cuando hay números negativos. ¿Puedes ayudarme a entender qué estoy haciendo mal sin darme el código completo?",
+							"type": "text"
+						},
+						{
+							"key": "entregable",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "entregable_texto",
+							"value": "def insertion_sort(arr):\n    for i in range(1, len(arr)):\n        key = arr[i]\n        j = i - 1\n        while j >= 0 and arr[j] > key:\n            arr[j + 1] = arr[j]\n            j -= 1\n        arr[j + 1] = key\n    return arr",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/tutor/analizar",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"tutor",
+						"analizar"
+					]
+				},
+				"description": "Solicitud de tutoría sobre algoritmos de ordenamiento. El estudiante tiene un problema con números negativos en su implementación del algoritmo de inserción."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		}
+	]
+}

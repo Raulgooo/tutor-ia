@@ -1,0 +1,38 @@
+# Prueba con Archivo Adjunto
+# Este archivo contiene un comando curl para probar la API con un archivo adjunto
+
+# Descripción: Solicitud de tutoría con archivo PDF/DOCX/TXT adjunto
+# Respuesta esperada: Objeto JSON con análisis del contenido del archivo y guía socrática
+
+# IMPORTANTE: Reemplaza 'ruta/al/archivo.pdf' con la ruta real a tu archivo
+# El archivo debe ser PDF, DOCX o TXT según las especificaciones de la API
+
+curl -X 'POST' \
+  'http://127.0.0.1:8000/tutor/analizar' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'enunciado=Escribir un ensayo de 500 palabras sobre las causas de la Primera Guerra Mundial, analizando factores políticos, económicos y sociales.' \
+  -F 'rubrica=Análisis de causas políticas (30%)
+- Análisis de causas económicas (30%)
+- Análisis de causas sociales (30%)
+- Coherencia y estructura del ensayo (10%)' \
+  -F 'pregunta=He escrito mi ensayo pero siento que mi análisis de las causas económicas es superficial. ¿Qué aspectos debería profundizar para mejorar esta sección?' \
+  -F 'entregable=@ruta/al/archivo.pdf' \
+  -F 'entregable_texto='
+
+# Ejemplo de respuesta esperada (comentado):
+# {
+#   "chain_of_thought": "El estudiante ha completado su ensayo y está buscando retroalimentación...",
+#   "anchor_references": [
+#     "Análisis de causas económicas (30%)",
+#     "Coherencia y estructura del ensayo (10%)"
+#   ],
+#   "output": "Después de revisar tu ensayo, veo que has mencionado la competencia imperialista..."
+# }
+
+# Notas:
+# - En Windows (PowerShell), usa la ruta completa: -F 'entregable=@C:\ruta\completa\archivo.pdf'
+# - En Windows (CMD), usa: -F "entregable=@C:\ruta\completa\archivo.pdf"
+# - En Linux/Mac, usa: -F 'entregable=@/ruta/completa/archivo.pdf'
+# - Asegúrate de que el archivo existe y tiene una extensión permitida (.pdf, .docx, .txt)
+# - El tamaño del archivo debe ser razonable para evitar timeouts

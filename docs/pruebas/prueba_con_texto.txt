@@ -1,0 +1,38 @@
+# Prueba con Entregable como Texto
+# Este archivo contiene un comando curl con el entregable proporcionado como texto plano
+
+# Descripción: Solicitud de tutoría sobre algoritmos de ordenamiento con código Python como entregable
+# Respuesta esperada: Objeto JSON con análisis del código y guía socrática
+
+curl -X 'POST' \
+  'http://127.0.0.1:8000/tutor/analizar' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'enunciado=Implementar una función que ordene un arreglo de números enteros utilizando el algoritmo de ordenamiento por inserción. La función debe incluir comentarios explicativos y manejar casos edge.' \
+  -F 'rubrica=Correcta implementación del algoritmo (50%)
+- Manejo de casos edge (25%)
+- Claridad en comentarios y estructura del código (25%)' \
+  -F 'pregunta=He intentado implementar el algoritmo pero mi código no ordena correctamente cuando hay números negativos. ¿Puedes ayudarme a entender qué estoy haciendo mal sin darme el código completo?' \
+  -F 'entregable=' \
+  -F 'entregable_texto=def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+    return arr'
+
+# Ejemplo de respuesta esperada (comentado):
+# {
+#   "chain_of_thought": "El estudiante ha implementado correctamente la estructura básica...",
+#   "anchor_references": [
+#     "Correcta implementación del algoritmo (50%)",
+#     "Manejo de casos edge (25%)"
+#   ],
+#   "output": "Tu implementación tiene la estructura correcta del algoritmo de inserción..."
+# }
+
+# Nota: Si el código contiene caracteres especiales o saltos de línea, asegúrate de escapar
+# correctamente el contenido en el comando curl o usa comillas apropiadas.

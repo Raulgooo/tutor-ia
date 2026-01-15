@@ -69,3 +69,5 @@ xxhash==3.6.0
 zstandard==0.25.0
 uuid-utils==0.13.0
 loguru==0.7.3
+pypdf==5.1.0
+python-docx==1.1.2

@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "prueba-exito-matematicas-001",
+		"name": "Prueba Éxito - Matemáticas",
+		"description": "Collection para probar casos exitosos de tutoría en matemáticas (integrales)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Tutoría Integrales - Caso Exitoso",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "enunciado",
+							"value": "Resolver una serie de ejercicios sobre integrales definidas utilizando el Teorema Fundamental del Cálculo. Se debe mostrar el procedimiento completo y la interpretación geométrica del resultado (área bajo la curva)",
+							"type": "text"
+						},
+						{
+							"key": "rubrica",
+							"value": "Aplicación correcta de las fórmulas de integración (40%)\n- Evaluación precisa de los límites de integración (30%)\n- Explicación de la interpretación geométrica (30%)",
+							"type": "text"
+						},
+						{
+							"key": "pregunta",
+							"value": "Tengo dudas con el Teorema Fundamental del Cálculo. ¿Me podrías explicar los pasos lógicos que debo seguir para resolver una integral definida sin darme la respuesta de un ejercicio en particular?",
+							"type": "text"
+						},
+						{
+							"key": "entregable",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "entregable_texto",
+							"value": "Tengo la función f(x) = x^2 y quiero integrarla de 1 a 3, pero no sé qué hacer después de encontrar la antiderivada.",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/tutor/analizar",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"tutor",
+						"analizar"
+					]
+				},
+				"description": "Solicitud de tutoría sobre integrales definidas. El estudiante busca orientación sobre cómo aplicar el Teorema Fundamental del Cálculo después de encontrar la antiderivada."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		}
+	]
+}

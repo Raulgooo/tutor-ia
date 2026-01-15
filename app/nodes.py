@@ -6,7 +6,6 @@ from schemas import (TutorState,
 from config import langchain_model as model, logger
 from utils import md_to_string
 
-
 async def pre_analysis_node(state: TutorState):
     sys = md_to_string("app/prompts/preanalysis.md")
     logger.info("Iniciando nodo de análisis preliminar.")
@@ -79,11 +78,13 @@ async def post_analysis_node(state: TutorState):
     sys = md_to_string("app/prompts/PostAnalysis.md")
     logger.info("Iniciando nodo de post-análisis.")
     tutor_res = state["tutor_response"]
+    prompt = state["actual_prompt"]
     AI_content = (
         f"--- RESULTADO DEL TUTOR ---\n"
         f"OUTPUT: {tutor_res.output}\n\n"
         f"CHAIN OF THOUGHT: {tutor_res.chain_of_thought}\n\n"
         f"ANCHOR REFERENCES: {', '.join(tutor_res.anchor_references or [])}"
+        f"ORIGINAL INPUT: {prompt}"
     )
     structured_llm = model.with_structured_output(PostAnalysisJudge)
     response = await structured_llm.ainvoke([{"role": "system", "content": sys},

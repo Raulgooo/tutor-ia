@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
 from typing import TypedDict, List, Optional, Annotated
 import operator
+from enum import Enum
 
 class UserPrompt(BaseModel):
     enunciado: str = Field(..., description="El enunciado o instrucción de la actividad academica.")
@@ -10,7 +11,7 @@ class UserPrompt(BaseModel):
 
 class PreAnalysisJudge(BaseModel):
     chain_of_thought: str = Field(..., description="El razonamiento del modelo sobre el análisis preliminar.")
-    risk_level: int = Field(..., description="Nivel de riesgo asignado a la petición del usuario, en una escala del 1 al 5.")
+    risk_level: float = Field(..., description="Nivel de riesgo asignado a la petición del usuario, en una escala del 1 al 5.")
     cheat_detected: bool = Field(..., description="Indica si se detectó alguna forma de trampa o plagio en la petición del usuario.")
 
 class NegativeFeedback(BaseModel):

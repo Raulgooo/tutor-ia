@@ -1,0 +1,27 @@
+# Prueba Básica - Tutoría Exitosa
+# Este archivo contiene un comando curl básico para probar la API con un caso exitoso de tutoría
+
+# Descripción: Solicitud de tutoría sobre integrales definidas
+# Respuesta esperada: Objeto JSON con chain_of_thought, anchor_references y output
+
+curl -X 'POST' \
+  'http://127.0.0.1:8000/tutor/analizar' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'enunciado=Resolver una serie de ejercicios sobre integrales definidas utilizando el Teorema Fundamental del Cálculo. Se debe mostrar el procedimiento completo y la interpretación geométrica del resultado (área bajo la curva)' \
+  -F 'rubrica=Aplicación correcta de las fórmulas de integración (40%)
+- Evaluación precisa de los límites de integración (30%)
+- Explicación de la interpretación geométrica (30%)' \
+  -F 'pregunta=Tengo dudas con el Teorema Fundamental del Cálculo. ¿Me podrías explicar los pasos lógicos que debo seguir para resolver una integral definida sin darme la respuesta de un ejercicio en particular?' \
+  -F 'entregable=' \
+  -F 'entregable_texto=Tengo la función f(x) = x^2 y quiero integrarla de 1 a 3, pero no sé qué hacer después de encontrar la antiderivada.'
+
+# Ejemplo de respuesta esperada (comentado):
+# {
+#   "chain_of_thought": "El estudiante ha logrado encontrar la antiderivada...",
+#   "anchor_references": [
+#     "Evaluación precisa de los límites de integración (30%)",
+#     "Explicación de la interpretación geométrica (30%)"
+#   ],
+#   "output": "¡Excelente que ya tienes la antiderivada! Ahora, para resolver..."
+# }

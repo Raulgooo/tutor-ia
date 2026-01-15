@@ -1,0 +1,131 @@
+{
+	"info": {
+		"_postman_id": "prueba-con-archivo-004",
+		"name": "Prueba con Archivo Adjunto",
+		"description": "Collection para probar solicitudes con archivos adjuntos (PDF, DOCX, TXT)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Tutoría con Archivo PDF",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "enunciado",
+							"value": "Escribir un ensayo de 500 palabras sobre las causas de la Primera Guerra Mundial, analizando factores políticos, económicos y sociales.",
+							"type": "text"
+						},
+						{
+							"key": "rubrica",
+							"value": "Análisis de causas políticas (30%)\n- Análisis de causas económicas (30%)\n- Análisis de causas sociales (30%)\n- Coherencia y estructura del ensayo (10%)",
+							"type": "text"
+						},
+						{
+							"key": "pregunta",
+							"value": "He escrito mi ensayo pero siento que mi análisis de las causas económicas es superficial. ¿Qué aspectos debería profundizar para mejorar esta sección?",
+							"type": "text"
+						},
+						{
+							"key": "entregable",
+							"value": "",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "entregable_texto",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/tutor/analizar",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"tutor",
+						"analizar"
+					]
+				},
+				"description": "Solicitud con archivo PDF adjunto. Selecciona un archivo PDF, DOCX o TXT en el campo 'entregable' antes de enviar la solicitud."
+			},
+			"response": []
+		},
+		{
+			"name": "Tutoría con Archivo DOCX",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "enunciado",
+							"value": "Implementar una solución en Python para procesar datos de un CSV y generar estadísticas descriptivas.",
+							"type": "text"
+						},
+						{
+							"key": "rubrica",
+							"value": "Correcta implementación del procesamiento (40%)\n- Generación de estadísticas (30%)\n- Manejo de errores y casos edge (30%)",
+							"type": "text"
+						},
+						{
+							"key": "pregunta",
+							"value": "Mi código funciona pero es muy lento con archivos grandes. ¿Qué técnicas podría usar para optimizarlo?",
+							"type": "text"
+						},
+						{
+							"key": "entregable",
+							"value": "",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "entregable_texto",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/tutor/analizar",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"tutor",
+						"analizar"
+					]
+				},
+				"description": "Solicitud con archivo DOCX adjunto. Selecciona un archivo DOCX con código Python antes de enviar la solicitud."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		}
+	]
+}
