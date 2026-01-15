@@ -12,30 +12,58 @@ Esta arquitectura garantiza:
 
 ---
 
+### 📥 Entrada del Usuario
+
+```python
+class UserPrompt(BaseModel):
+    enunciado: str = Field(
+        ..., 
+        description="El enunciado o instrucción de la actividad academica."
+    )
+    rubrica: str = Field(
+        ..., 
+        description="La rúbrica para evaluar la actividad."
+    )
+    pregunta: str = Field(
+        ..., 
+        description="La pregunta específica sobre la actividad."
+    )
+    entregable: Optional[str] = Field(
+        None, 
+        description="El entregable proporcionado por el estudiante, puede ser texto o un name relacionado a un archivo de GEMINI FILES API."
+    )
+```
+
+**Propósito**: Modela la entrada del usuario al sistema, incluyendo el contexto de la actividad académica y el entregable del estudiante.
+
+**Decisiones de diseño**:
+- `entregable` es opcional y puede ser texto plano o una referencia a un archivo procesado por Gemini Files API
+- Todos los campos son requeridos excepto `entregable`. Decidi hacer entregable multi-input(pdf,docx y txt) para permitir pruebas mas interesantes con el modelo.
+
+---
+
 ### 🔍 Nodo de Pre-Análisis
 
 ```python
 class PreAnalysisJudge(BaseModel):
     chain_of_thought: str = Field(
         ..., 
-        description="Razonamiento del modelo sobre el análisis preliminar de la petición"
+        description="El razonamiento del modelo sobre el análisis preliminar."
     )
-    risk_level: int = Field(
+    risk_level: float = Field(
         ..., 
-        description="Nivel de riesgo del 1-5 (1=seguro, 5=trampa evidente)",
-        ge=1, 
-        le=5
+        description="Nivel de riesgo asignado a la petición del usuario, en una escala del 1 al 5."
     )
     cheat_detected: bool = Field(
         ..., 
-        description="Indica si se detectó intento de trampa o plagio"
+        description="Indica si se detectó alguna forma de trampa o plagio en la petición del usuario."
     )
 ```
 
 **Propósito**: Actúa como guardián inicial del sistema, evaluando la intención del usuario antes de proceder con la tutoría.
 
 **Decisiones de diseño**:
-- `risk_level` permite decisiones graduales (no todo es blanco/negro)
+- `risk_level` es un `float` que permite decisiones graduales (no todo es blanco/negro)
 - `cheat_detected` fuerza una decisión binaria clara para el flujo condicional
 - `chain_of_thought` expone el razonamiento para debugging y auditoría
 
@@ -115,8 +143,6 @@ class PostAnalysisJudge(BaseModel):
 ```python
 class TutorState(TypedDict):
     actual_prompt: UserPrompt
-    system_instructions: str
-    user_id: str
     first_judgement: Optional[PreAnalysisJudge]
     negative_feedback: Optional[NegativeFeedback]
     tutor_response: Optional[AnalysisResult]
@@ -126,7 +152,7 @@ class TutorState(TypedDict):
 **Propósito**: Contenedor de estado que persiste información a través de todo el grafo de LangGraph.
 
 **Estructura de datos**:
-- **Entrada del usuario**: `actual_prompt`, `system_instructions`, `user_id`
+- **Entrada del usuario**: `actual_prompt` contiene toda la información de la solicitud del estudiante
 - **Salidas de nodos**: Todos los campos `Optional` se populan conforme avanza el flujo
 - **Flujo no lineal**: No todos los campos se llenan en cada ejecución (ej. si se detecta fraude, `tutor_response` permanece `None`)
 
@@ -134,6 +160,7 @@ class TutorState(TypedDict):
 - Compatible con la API de LangGraph
 - Permite tipado estático sin la sobrecarga de una clase completa
 - Los campos `Optional` modelan explícitamente los diferentes caminos del flujo
+- Diseño minimalista: solo contiene lo esencial para el flujo del grafo
 
 ---
 
