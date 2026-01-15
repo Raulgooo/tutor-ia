@@ -8,7 +8,7 @@
 
 **Un tutor académico con método socrático y arquitectura anti-trampa basada en graphs**
 
-[Características](#-características-principales) • [Instalación](#-instalación) • [Uso](#-uso) • [Arquitectura](#-arquitectura) • [API](#-api-reference) • [Ejemplos de uso](#-Ejemplos) • [Material para pruebas](#-Pruebas)
+[Características](#-características-principales) • [Instalación](#-instalación) • [Uso](#-uso) • [Arquitectura](#-arquitectura) • [API](#-api-reference) • [Ejemplos de uso](#Ejemplos) • [Material para pruebas](#Pruebas)
 
 </div>
 
@@ -87,8 +87,8 @@ En lugar de depender de un único prompt que puede ser vulnerable a *prompt inje
    - Verifica que no se haya filtrado la solución
    - Valida cumplimiento de estándares pedagógicos
 
-Decidi no añadir un key de SystemPrompt en el State general del tutor por que se usa para trazabilidad y lo considere innecesario ya que con el logging que esta implementado ya es suficiente para saber en que parte falla o sucede algo mirando el archivo de logs y por ende que prompt se uso. En el futuro se podria añadir para mejorar.
 ---
+*Decidi no añadir un key de SystemPrompt en el State general del tutor por que se usa para trazabilidad y lo considere innecesario ya que con el logging que esta implementado ya es suficiente para saber en que parte falla o sucede algo mirando el archivo de logs y por ende que prompt se uso. En el futuro se podria añadir para mejorar.*
 
 ## 🧠 Técnicas de Prompting
 
@@ -270,14 +270,17 @@ Mas ejemplos:
 | **Pregunta** | He escrito mi ensayo pero siento que mi análisis de las causas económicas es superficial. ¿Qué aspectos debería profundizar para mejorar esta sección? |
 | **Entregable** | [Archivo PDF adjunto: ensayo_primera_guerra_mundial.pdf] |
 | **Output** | `{`<br>`  "chain_of_thought": "El estudiante ha completado su ensayo y está buscando retroalimentación específica sobre la sección de causas económicas. He analizado el documento adjunto y puedo identificar áreas donde el análisis económico puede ser más profundo. Debo guiarlo hacia aspectos específicos sin reescribir su trabajo.",`<br>`  "anchor_references": ["Análisis de causas económicas (30%)", "Coherencia y estructura del ensayo (10%)"],`<br>`  "output": "Después de revisar tu ensayo, veo que has mencionado la competencia imperialista y las tensiones comerciales, lo cual es un buen punto de partida. Para profundizar en las causas económicas, te sugiero que consideres: 1) El papel de la carrera armamentista y su impacto en las economías nacionales, 2) La relación entre los sistemas de alianzas y los intereses económicos compartidos, 3) El efecto de las crisis económicas previas (como la de 1907) en la tensión internacional, 4) Cómo la industrialización creó dependencias económicas que influyeron en las decisiones políticas. ¿Qué aspectos de estos temas te gustaría explorar más en tu ensayo?"`<br>`}` |
+
 ## Pruebas
+
+### Material para pruebas
 
 En la carpeta [`docs/pruebas/`](docs/pruebas/) encontrarás material de prueba listo para usar:
 
 - **Postman Collections** (`.postman_collection.json`): Collections listas para importar en Postman con diferentes escenarios de prueba configurados
 - **Archivos de texto** (`.txt`): Comandos `curl` completos y listos para ejecutar desde la terminal
 
-### Contenido disponible:
+#### Contenido disponible:
 
 **Postman Collections:**
 - `prueba_exito_matematicas.postman_collection.json` - Caso exitoso de tutoría en matemáticas
@@ -292,7 +295,5 @@ En la carpeta [`docs/pruebas/`](docs/pruebas/) encontrarás material de prueba l
 - `prueba_archivo.txt` - Comando curl con archivo adjunto
 
 Para usar las collections de Postman, simplemente importa el archivo JSON en Postman. Para los archivos .txt, copia y pega el comando curl en tu terminal (asegúrate de ajustar la URL si es necesario).
-
-
 
 </div>
