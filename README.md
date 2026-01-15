@@ -164,7 +164,7 @@ OPENAI_API_KEY=tu_api_key_aqui
 ### Iniciar el Servidor
 
 ```bash
-uvicorn main:app --reload
+uvicorn app.main:app --reload
 ```
 
 El servidor estará disponible en `http://localhost:8000`
