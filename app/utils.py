@@ -2,9 +2,12 @@ import os
 from pathlib import Path
 import tempfile
 import shutil
+
 from fastapi import UploadFile, HTTPException
-from config import logger
-from services.parser_models import FileObj
+
+from app.config import logger
+from app.services.parser_models import FileObj
+
 
 def md_to_string(filename):
     try:

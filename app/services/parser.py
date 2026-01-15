@@ -1,7 +1,9 @@
-from services.parser_models import FileObj, ParserError
-from config import logger
 from pypdf import PdfReader
 from docx import Document
+
+from app.services.parser_models import FileObj, ParserError
+from app.config import logger
+
 
 async def parse_file(file: FileObj) -> str:
     suffix = file.suffix

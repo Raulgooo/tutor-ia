@@ -1,9 +1,15 @@
 from langgraph.graph import StateGraph, START, END
-from typing import TypedDict, Annotated
-import operator
-from schemas import TutorState
-from nodes import pre_analysis_node, route_after_pre_analysis, tutor_node, negative_node, post_analysis_node, route_after_post_analysis
 from langgraph.types import RetryPolicy
+
+from app.schemas import TutorState
+from app.nodes import (
+    pre_analysis_node,
+    route_after_pre_analysis,
+    tutor_node,
+    negative_node,
+    post_analysis_node,
+    route_after_post_analysis,
+)
 
 flow = StateGraph(TutorState)
 # Solo añadi retry policy en el nodo tutor por que es el mas critico y no quiero meter mas politicas por ahora.

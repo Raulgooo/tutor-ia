@@ -2,14 +2,14 @@ from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from typing import Optional, Annotated
-from schemas import UserPrompt
-from graph import graph
-import asyncio
-from utils import store_file
-from config import logger, graph_config
 from pydantic import ValidationError
-from utils import validate_extension
-from services.parser import parse_file
+import asyncio
+
+from app.schemas import UserPrompt
+from app.graph import graph
+from app.utils import store_file, validate_extension
+from app.config import logger, graph_config
+from app.services.parser import parse_file
 
 app = FastAPI()
 

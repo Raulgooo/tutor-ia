@@ -1,10 +1,13 @@
-from schemas import (TutorState, 
-    PreAnalysisJudge, 
-    AnalysisResult, 
-    NegativeFeedback, 
-    PostAnalysisJudge, UserPrompt)
-from config import langchain_model as model, logger
-from utils import md_to_string
+from app.schemas import (
+    TutorState,
+    PreAnalysisJudge,
+    AnalysisResult,
+    NegativeFeedback,
+    PostAnalysisJudge,
+    UserPrompt,
+)
+from app.config import langchain_model as model, logger
+from app.utils import md_to_string
 
 async def pre_analysis_node(state: TutorState):
     sys = md_to_string("app/prompts/preanalysis.md")
