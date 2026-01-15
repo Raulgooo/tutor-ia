@@ -124,6 +124,8 @@ Antes de pasar a la instalacion y el API, listare las mejoras que le haria al pr
 
 ### Instalación Local
 
+Pruebe la aplicacion desplegada ahora mismo: 
+
 ```bash
 # 1. Clonar el repositorio
 git clone https://github.com/raulgooo/tutor-ia.git
@@ -139,16 +141,6 @@ pip install -r requirements.txt
 # 4. Configurar variables de entorno
 cp .env.example .env
 # Editar .env y agregar tu OPENAI_API_KEY
-```
-
-### Instalación con Docker
-
-```bash
-# Construir imagen
-docker build -t socrat-ai .
-
-# Ejecutar contenedor
-docker run -p 8000:8000 --env-file .env socrat-ai
 ```
 
 ### Variables de Entorno
@@ -176,7 +168,6 @@ Accede a la documentación auto-generada de FastAPI:
 
 ---
 
-PRUEBALO DESPLEGADO: placeholder.
 
 ## 📡 API Reference
 
