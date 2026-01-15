@@ -1,4 +1,4 @@
-# Python
+#Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -10,11 +10,11 @@ ENV/
 .venv
 app/venv/
 
-# Logs
+#Logs
 logs/
 *.log
 
-# IDE
+#IDEs
 .vscode/
 .idea/
 *.swp
@@ -22,18 +22,18 @@ logs/
 *.sublime-project
 *.sublime-workspace
 
-# Git
+#Git
 .git/
 .gitignore
 .gitattributes
 
-# Documentation
+#docs
 docs/
 README.md
 *.md
 !app/prompts/*.md
 
-# Environment variables (se pasan con --env-file)
+#env
 .env
 .env.local
 .env.*.local
@@ -54,7 +54,7 @@ Dockerfile
 .dockerignore
 docker-compose.yml
 
-# Project specific
+#project
 instructions.md
 example.md
 examples.md
