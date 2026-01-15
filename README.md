@@ -139,6 +139,7 @@ pip install -r requirements.txt
 # 4. Configurar variables de entorno
 cp .env.example .env
 # Editar .env y agregar tu OPENAI_API_KEY
+# cd app
 ```
 
 ### Instalación con Docker
