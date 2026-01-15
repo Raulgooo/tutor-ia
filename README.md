@@ -104,7 +104,7 @@ El sistema implementa las siguientes técnicas de ingeniería de prompts:
 Antes de pasar a la instalacion y el API, listare las mejoras que le haria al programa.
 - **Implementacion de memoria basica**: Añadir al estado del graph la lista de mensajes previos o utilizar checkpointers de langgraph.
 - **Multitenencia**: Un sistema basico de usuarios que permita a cada usuario tener su conversación.
-- **Hashing para la subida de entregables**: Añadiria Redis y una funcion para hacer hashing de 256 bits a cada archivo subido como entregable y comprobar si se encuentra disponible en la FILES API, en caso de hacerlo ejecuta un query a redis para obtener el .name ligado a ese hash y hacer la consulta a la FILES API.
+- **Hashing para la subida de entregables**: Cambiaria a googlr y gemini por que me parecen mas efectivos por el costo sus modelos. Luego añadiria Redis y una funcion para hacer hashing de 256 bits a cada archivo subido como entregable y comprobar si se encuentra disponible en la gemini FILES API, en caso de hacerlo ejecuta un query a redis para obtener el .name ligado a ese hash y hacer la consulta a la FILES API.
 - **Front-end Ligero**: Un ligero front-end web o una TUI para utilizar el programa de forma local.
 - **Mejor manejo de errores**: Añadiria mas codigos HTTP para trazar excepciones.
 - **Mejoras en logs**: Implementaria un sistema de logs mas sofisticado para seguir mejor el state.
