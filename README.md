@@ -127,7 +127,7 @@ Antes de pasar a la instalacion y el API, listare las mejoras que le haria al pr
 ```bash
 # 1. Clonar el repositorio
 git clone https://github.com/raulgooo/tutor-ia.git
-cd socrat-ai
+cd tutor-ia
 
 # 2. Crear entorno virtual
 python -m venv venv
