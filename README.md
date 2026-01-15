@@ -24,7 +24,7 @@ SOCRAT-AI es un tutor académico inteligente diseñado para guiar a los estudian
 - 🛡️ **Sistema Anti-Trampa**: Arquitectura de nodo que detecta intentos de trampa.
 - 📊 **Validación de Rúbricas**: Evalúa respuestas contra criterios académicos específicos.
 - 📄 **Procesamiento de Documentos**: Soporte para entregables PDF, DOCX y TXT adjuntos.
-- ⚡ **Baja Latencia**: Veloz y exacto, respuestas casi instantaneas sin streaming.
+- ⚡ **Baja Latencia**: Veloz y exacto, validacion de cumplimiento de normas robusta + respuestas casi instantaneas sin streaming.
 - 🔍 **Trazabilidad basica**: Logging de procesos para debugs y tests, etc
 
 ---
@@ -108,7 +108,7 @@ Antes de pasar a la instalacion y el API, listare las mejoras que le haria al pr
 - **Front-end Ligero**: Un ligero front-end web o una TUI para utilizar el programa de forma local.
 - **Mejor manejo de errores**: Añadiria mas codigos HTTP para trazar excepciones.
 - **Mejoras en logs**: Implementaria un sistema de logs mas sofisticado para seguir mejor el state.
-- **Refactorizacion o mejora de langgraph**: Evaluaria si la solucion actual esta overengineered o si le falta robustez y revisaria alternativas para tener mejor calidad en resultados.
+- **Refactorizacion o mejora de langgraph**: Evaluaria si la solucion actual esta overengineered o si le falta robustez y revisaria alternativas para tener mejor calidad en resultados. Siento que hubiera estado aun mejor implementar en el edge de post analysis condiciones para que vuelva a escupir la respuesta para los casos donde su respuesta no dio respuestas ni violo normas pero fue vaga o perezosa.
 - **Nuevos Prompts y refactor de modelos**: Con mas tiempo escribiria prompts mejor pensados y quiza añadiria evaluaciones numericas del 1 al 10 sobre la calidad de la respuesta producida para que un juez pueda retroalimentar al tutor en caso de que el input amerite una respuesta mejor formada. 
 - **Pruebas Unitarias para los nodos**: Tenia pensado incluirlas en esta primera version pero probablemente no podre por el tiempo, si queda pendiente entonces despues lo añadiria.
 - **Fuzzy matching o sanitización preLLM**: Pondria en la logica de nodos fuzzy matching o algun metodo de deteccion de prompts con trampa comunes para que inmediatamente salten a respuesta negativa sin gastar tokens en analisis.
@@ -116,6 +116,7 @@ Antes de pasar a la instalacion y el API, listare las mejoras que le haria al pr
 - **Añadir tipado estricto en los anchors**: Es algo que haria mas consistente el output y no esta actualmente implementado.
 
 ## 🚀 Instalación
+*o tambien, pruebelo en el enlace*: [Despliegue en Render](https://socrat-ai.onrender.com/docs#/) 
 
 ### Requisitos Previos para instalación.
 
@@ -133,7 +134,7 @@ cd tutor-ia
 
 # 2. Crear entorno virtual
 python -m venv venv
-source venv/bin/activate  # En Windows: cmd -> venv\Scripts\activate.bat powrshell -> venv\Scripts\activate.ps1
+source venv/bin/activate  # En Windows: cmd -> venv\Scripts\activate.bat powershell -> venv\Scripts\activate.ps1
 
 # 3. Instalar dependencias
 pip install -r requirements.txt
@@ -266,7 +267,7 @@ Mas ejemplos:
 
 ### Material para pruebas
 
-En la carpeta [`docs/pruebas/`](docs/pruebas/) encontrarás material de prueba listo para usar:
+En la carpeta [`docs/pruebas/`](docs/pruebas/) esta el material de prueba listo para usar en local:
 
 - **Postman Collections** (`.postman_collection.json`): Collections listas para importar en Postman con diferentes escenarios de prueba configurados
 - **Archivos de texto** (`.txt`): Comandos `curl` completos y listos para ejecutar desde la terminal
