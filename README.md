@@ -39,7 +39,7 @@ SOCRAT-AI es un tutor académico inteligente diseñado para guiar a los estudian
 | **LLM** | GPT 5.2 | GPT 5.2 es muy bueno con entradas y resultados estructurados. La mayoria tiene un API key de openAI y eso fue un factor que influyo en mi decision de dejarlo como modelo final ya que tambien probe con gemini y openrouter pero decidi priorizar la facilidad de integración. |
 | **Orquestación** | LangGraph | Flujos de agentes cíclicos y validaciones granulares |
 | **Validación** | Pydantic | Contratos de datos estrictos y salidas estructuradas |
-| **Documentos** | Gemini Files API | Procesamiento eficiente y económico de archivos temporales |
+| **Documentos** | PyPDF y docx lib | Para la subida de archivos de tipo docx, txt y pdf en la seccion de entregables.|
 | **Logging** | Loguru | Trazabilidad basica para hacer debugging en nodos.|
 
 ### Flujo de LangGraph
@@ -114,6 +114,7 @@ Antes de pasar a la instalacion y el API, listare las mejoras que le haria al pr
 - **Fuzzy matching o sanitización preLLM**: Pondria en la logica de nodos fuzzy matching o algun metodo de deteccion de prompts con trampa comunes para que inmediatamente salten a respuesta negativa sin gastar tokens en analisis.
 - **Wrapper para cambiar de proveedor y modelos**: Incluir seleccion de modelos en el endpoint principal.
 - **Añadir tipado estricto en los anchors**: Es algo que haria mas consistente el output y no esta actualmente implementado.
+- **Subida de archivos extendida**: Docx e imagenes tambien en otras entradas como el enunciado.
 
 ## 🚀 Instalación
 *o tambien, pruebelo en el enlace*: [Despliegue en Render](https://socrat-ai.onrender.com/docs#/) 
