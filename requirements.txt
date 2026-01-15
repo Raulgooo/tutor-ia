@@ -1,0 +1,22 @@
+# Web Framework
+fastapi>=0.100.0
+uvicorn[standard]>=0.24.0
+python-multipart>=0.0.6
+
+# Environment Variables
+python-dotenv>=1.0.0
+
+# LLM & AI
+langchain-openai>=0.1.0
+openai>=1.0.0
+langgraph>=1.0.0
+
+# Data Validation
+pydantic>=2.0.0
+
+# Logging
+loguru>=0.7.0
+
+# File Parsing
+pypdf>=5.0.0
+python-docx>=1.1.0
