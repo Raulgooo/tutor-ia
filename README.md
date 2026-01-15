@@ -173,7 +173,7 @@ Accede a la documentación auto-generada de FastAPI:
 
 ## 📡 API Reference
 
-### `POST /tutor/analyze`
+### `POST /tutor/analyzar`
 
 Analiza una consulta del estudiante y genera retroalimentación socrática.
 
